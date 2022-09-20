@@ -1,13 +1,13 @@
 class Logger:
 
     def __init__(self):
-        self.ok = {}
+        self.ok = defaultdict(int)
 
     def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
-        if timestamp < self.ok.get(message, 0):
-            return False
-        self.ok[message] = timestamp + 10
-        return True
+        if self.ok[message] <= timestamp:
+            self.ok[message] = timestamp + 10
+            return True
+        return False
 
 
 # Your Logger object will be instantiated and called as such:
