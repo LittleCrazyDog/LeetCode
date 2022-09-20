@@ -1,23 +1,26 @@
 class Solution:
     def findMinHeightTrees(self, n: int, E: List[List[int]]) -> List[int]:
-        # 2*DFS Approach
+        # Remove Leaves using BFS
+        if not E: return [0]
         G, seen = defaultdict(set), [False] * n
         for u, v in E:
             G[u].add(v)
             G[v].add(u)
         
-        def dfs(i):
-            if seen[i]: return []
-            longest_path = []
-            seen[i] = True
-            for adj in G[i]:
-                if not seen[adj]:
-                    path = dfs(adj)
-                    if len(path) > len(longest_path):
-                        longest_path = path
-            longest_path += [i]
-            seen[i] = False
-            return longest_path
+        leaves, new_leaves, in_degree = [], [], []
+        for i in range(n):
+            if len(G[i]) == 1:
+                leaves.append(i)
+            in_degree.append(len(G[i]))
         
-        path = dfs(dfs(0)[0])
-        return set([path[len(path)//2], path[(len(path)-1)//2]])
+        while n > 2:
+            for leaf in leaves:
+                for adj in G[leaf]:
+                    in_degree[adj] -= 1
+                    if in_degree[adj] == 1:
+                        new_leaves.append(adj)
+            n -= len(leaves)
+            leaves = new_leaves[:]
+            new_leaves.clear()
+        
+        return leaves
