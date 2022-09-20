@@ -1,35 +1,9 @@
 class Solution:
     def maxKilledEnemies(self, grid: List[List[str]]) -> int:
-        m, n = len(grid), len(grid[0])
-        dp = [[0 for _ in range(n)] for _ in range(m)]
+        def hits(grid):
+            return [[h for block in ''.join(row).split('W') for h in [block.count('E')] * len(block) + [0]] for row in grid]
         
-        # left -> right
-        for i in range(m):
-            cur = 0
-            for j in range(n):
-                if grid[i][j] == 'W': cur = 0
-                if grid[i][j] == 'E': cur += 1
-                else: dp[i][j] += cur
-        # right -> left
-        for i in range(m):
-            cur = 0
-            for j in range(n-1, -1, -1):
-                if grid[i][j] == 'W': cur = 0
-                if grid[i][j] == 'E': cur += 1
-                else: dp[i][j] += cur
-        # up -> down
-        for j in range(n):
-            cur = 0
-            for i in range(m):
-                if grid[i][j] == 'W': cur = 0
-                if grid[i][j] == 'E': cur += 1
-                else: dp[i][j] += cur
-        # down -> up
-        for j in range(n):
-            cur = 0
-            for i in range(m-1, -1, -1):
-                if grid[i][j] == 'W': cur = 0
-                if grid[i][j] == 'E': cur += 1
-                else: dp[i][j] += cur
+        rowhits = hits(grid)
+        colhits = zip(*hits(zip(*grid)))
         
-        return max(dp[i][j] for i in range(m) for j in range(n))
+        return max([rh + ch for row in zip(grid, rowhits, colhits) for cell, rh, ch in zip(*row) if cell == '0'] or [0])
