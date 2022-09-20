@@ -4,7 +4,7 @@ class Solution:
         n = len(nums)
         dp = [[0 for _ in range(n)] for _ in range(n)]
         
-        for k in range(2, n):
+        for k in range(n):
             for left in range(0, n-k):
                 right = left + k
                 for i in range(left+1, right):
