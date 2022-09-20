@@ -4,9 +4,11 @@ class MovingAverage:
         self.queue = deque(maxlen=size)
 
     def next(self, val: int) -> float:
-        queue = self.queue
-        queue.append(val)
-        return float(sum(queue))/len(queue)
+        # queue = self.queue
+        # queue.append(val)
+        # return float(sum(queue))/len(queue)
+        self.queue.append(val)
+        return float(sum(self.queue))/len(self.queue)
 
 
 # Your MovingAverage object will be instantiated and called as such:
