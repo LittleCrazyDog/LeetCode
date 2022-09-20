@@ -1,23 +1,18 @@
 class Solution:
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
-        # DFS Approach
-        def dfs(n, g, visited):
-            if visited[n]:
-                return
-            visited[n] = 1
-            for x in g[n]:
-                dfs(x, g, visited)
-        
-        visited = [0] * n
+        # BFS Approach
         g = {x:[] for x in range(n)}
         for x, y in edges:
             g[x].append(y)
             g[y].append(x)
-            
+        
         ret = 0
         for i in range(n):
-            if not visited[i]:
-                dfs(i, g, visited)
-                ret += 1
+            queue = [i]
+            ret += 1 if i in g else 0
+            for j in queue:
+                if j in g:
+                    queue += g[j]
+                    del g[j]
         
         return ret
