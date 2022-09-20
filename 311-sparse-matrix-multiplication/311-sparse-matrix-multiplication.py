@@ -9,7 +9,6 @@ class Solution:
                 if eleB: tableB[k][j] = eleB
         for i, row in enumerate(A):
             for k, eleA in enumerate(row):
-                if eleA:
-                    for j, eleB in tableB[k].items():
-                        C[i][j] += eleA * eleB
+                for j, eleB in tableB[k].items():
+                    C[i][j] += eleA * eleB
         return C
