@@ -1,14 +1,19 @@
 class Solution:
 
     def __init__(self, nums: List[int]):
-        self.reset = lambda: nums
-        self.shuffle = lambda: random.sample(nums, len(nums))
+        self.nums = nums
+        self.g = self.gen()
 
-#     def reset(self) -> List[int]:
-        
+    def gen(self):
+        while True:
+            for p in permutations(self.nums):
+                yield p
+    
+    def reset(self) -> List[int]:
+        return self.nums
 
-#     def shuffle(self) -> List[int]:
-        
+    def shuffle(self) -> List[int]:
+        return next(self.g)
 
 
 # Your Solution object will be instantiated and called as such:
