@@ -4,6 +4,7 @@
 #         self.val = val
 #         self.next = next
 class Solution:
+    # Reverse and then Increase while Reversing Back
     def plusOne(self, head: ListNode) -> ListNode:
         tail = None
         while head:
