@@ -4,15 +4,18 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    # Reverse and then Increase while Reversing Back
+    # With pure reverse helper
     def plusOne(self, head: ListNode) -> ListNode:
-        tail = None
-        while head:
-            head.next, head, tail = tail, head.next, head
-        carry = 1
-        while tail:
-            carry, tail.val = divmod(carry+tail.val, 10)
-            if carry and not tail.next:
-                tail.next = ListNode(0)
-            tail.next, tail, head = head, tail.next, tail
-        return head
+        def reverse(head):
+            rev = None
+            while head:
+                head.next, head, rev = rev, head.next, head
+            return rev
+        head = node = reverse(head)
+        while node.val == 9:
+            node.val = 0
+            if not node.next:
+                node.next = ListNode(0)
+            node = node.next
+        node.val += 1
+        return reverse(head)
