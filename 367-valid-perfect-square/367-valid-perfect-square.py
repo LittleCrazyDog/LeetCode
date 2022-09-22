@@ -1,8 +1,15 @@
 class Solution:
     def isPerfectSquare(self, num: int) -> bool:
-        # Math Trick for Square Number is 1 + 3 + 5 + ... + (2n-1)
-        i = 1
-        while num > 0:
-            num -= i
-            i += 2
-        return num == 0
+        # Binary Search Method
+        left, right = 0, num
+        
+        while left <= right:
+            mid = left + (right-left) // 2
+            if mid**2 == num:
+                return True
+            elif mid**2 > num:
+                right = mid - 1
+            else:
+                left = mid + 1
+        
+        return False
