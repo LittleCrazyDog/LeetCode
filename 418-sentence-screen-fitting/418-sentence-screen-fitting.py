@@ -1,14 +1,17 @@
 class Solution:
     def wordsTyping(self, sentence: List[str], rows: int, cols: int) -> int:
         s = ' '.join(sentence) + ' '
-        start = 0
+        sentence_ptr = 0
         for i in range(rows):
-            start += cols - 1
-            if s[start % len(s)] == ' ':
-                start += 1
-            elif s[(start + 1) % len(s)] == ' ':
-                start += 2
+            sentence_ptr += cols - 1
+            # case 1: sentence_ptr at the end of screen falls exactly on the space
+            if s[sentence_ptr % len(s)] == ' ':
+                sentence_ptr += 1
+            # case 2: sentence_ptr at the end of screen coincides with the last letter of a word (next is space)
+            elif s[(sentence_ptr+1) % len(s)] == ' ':
+                sentence_ptr += 2
+            # case 3: sentence_ptr at the end of screen falls in the middle of a word; roll back
             else:
-                while start > 0 and s[(start - 1) % len(s)] != ' ':
-                    start -= 1
-        return start // len(s)
+                while sentence_ptr > 0 and s[(sentence_ptr - 1) % len(s)] != ' ':
+                    sentence_ptr -= 1
+        return sentence_ptr // len(s)
