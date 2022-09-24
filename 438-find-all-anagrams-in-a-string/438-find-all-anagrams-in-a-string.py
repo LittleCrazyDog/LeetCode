@@ -15,7 +15,7 @@ class Solution:
         for i in range(-1, sL-pL):
             if i > -1 and s[i] in hm:
                 hm[s[i]] += 1
-            if i+pL < sL and s[i+pL] in hm:
+            if s[i+pL] in hm:
                 hm[s[i+pL]] -= 1
             
             # check whether we encountered an anagram
