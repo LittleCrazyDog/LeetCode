@@ -1,7 +1,4 @@
 class Solution:
     def arrangeCoins(self, n: int) -> int:
-        rows = 1
-        while n > 0:
-            rows += 1
-            n -= rows
-        return rows - 1
+        rows = math.floor((2*n + 0.25)**0.5 - 0.5)
+        return rows
