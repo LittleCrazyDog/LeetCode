@@ -18,8 +18,8 @@ class Solution:
         
         def dp(mm, nn, kk):
             if mm < 0 or nn < 0: return float('-inf')
-            if kk == len(strs): return 0
-            x, y = xy[kk]
-            return max(1 + dp(mm-x, nn-y, kk+1), dp(mm, nn, kk+1))
+            if kk == 0: return 0
+            x, y = xy[kk-1]
+            return max(1 + dp(mm-x, nn-y, kk-1), dp(mm, nn, kk-1))
         
-        return dp(m, n, 0)
+        return dp(m, n, len(strs))
