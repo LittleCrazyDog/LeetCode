@@ -1,10 +1,23 @@
 class Solution:
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
-        count = Counter({0: 1})
-        for x in nums:
-            step = Counter()
-            for y in count:
-                step[y+x] += count[y]
-                step[y-x] += count[y]
-            count = step
-        return count[target]
+        index = len(nums) - 1
+        curr_sum = 0
+        self.memo = {}
+        return self.dp(nums, target, index, curr_sum)
+    
+    def dp(self, nums, target, index, curr_sum):
+        if (index, curr_sum) in self.memo:
+            return self.memo[(index, curr_sum)]
+        
+        # Base Cases
+        if index < 0 and curr_sum == target:
+            return 1
+        if index < 0:
+            return 0
+        
+        # Decisions
+        positive = self.dp(nums, target, index-1, curr_sum + nums[index])
+        negative = self.dp(nums, target, index-1, curr_sum - nums[index])
+        
+        self.memo[(index, curr_sum)] = positive + negative
+        return positive + negative
