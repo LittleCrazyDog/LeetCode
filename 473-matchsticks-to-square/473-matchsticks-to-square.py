@@ -17,6 +17,10 @@ class Solution:
                 return False
             if l1 > edge or l2 > edge or l3 > edge or l4 > edge:
                 return False
+            # Makes the cache more efficient because symmetric cases are ruled out
+            x = [l1, l2, l3, l4]
+            x.sort()
+            l1, l2, l3, l4 = x
             return findedges(l1 + matchsticks[i], l2, l3, l4, i + 1) or findedges(l1, l2 + matchsticks[i], l3, l4, i + 1) or findedges(l1, l2, l3 + matchsticks[i], l4, i + 1) or findedges(l1, l2, l3, l4 + matchsticks[i], i + 1)
         
         return findedges(0, 0, 0, 0, 0)
