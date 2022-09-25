@@ -5,9 +5,9 @@ class Solution:
         m = len(maze[0])
         dirs = ((0, 1), (0, -1), (1, 0), (-1, 0))
         
+        maze[start[0]][start[1]] = 2
         while Q:
             i, j = Q.popleft()
-            maze[i][j] = 2
             
             if i == destination[0] and j == destination[1]:
                 return True
@@ -22,5 +22,6 @@ class Solution:
                 col -= y
                 if maze[row][col] == 0:
                     Q.append([row, col])
+                    maze[i][j] = 2
         
         return False
