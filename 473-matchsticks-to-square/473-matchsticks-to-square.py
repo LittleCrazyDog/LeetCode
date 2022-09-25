@@ -1,17 +1,22 @@
 class Solution:
-    def makesquare(self, nums: List[int]) -> bool:
-        N = len(nums)
-        basket, rem = divmod(sum(nums), 4)
-        if rem or max(nums) > basket: return False
+    def makesquare(self, matchsticks: List[int]) -> bool:
+        value = sum(matchsticks)
+        if value < 4:
+            return False
+        if value % 4 != 0:
+            return False
+        edge = value // 4
+        matchsticks.sort(reverse=True)
         
-        @lru_cache(None)
-        def dfs(mask):
-            if mask == 0: return 0
-            for j in range(N):
-                if mask & 1<<j:
-                    neib = dfs(mask ^ 1<<j)
-                    if neib >= 0 and neib + nums[j] <= basket:
-                        return (neib + nums[j]) % basket
-            return -1
+        @cache
+        def findedges(l1, l2, l3, l4, i):
+            nonlocal edge
+            if l1 == l2 == l3 == l4 == edge:
+                return True
+            if i > len(matchsticks) - 1:
+                return False
+            if l1 > edge or l2 > edge or l3 > edge or l4 > edge:
+                return False
+            return findedges(l1 + matchsticks[i], l2, l3, l4, i + 1) or findedges(l1, l2 + matchsticks[i], l3, l4, i + 1) or findedges(l1, l2, l3 + matchsticks[i], l4, i + 1) or findedges(l1, l2, l3, l4 + matchsticks[i], i + 1)
         
-        return dfs((1<<N)-1)==0
+        return findedges(0, 0, 0, 0, 0)
