@@ -6,6 +6,9 @@ class Solution:
         #   - If s[l] == s[r] then dp[l][r] = dp[l+1][r-1] + 2
         #   - Elif s[l] != s[r] then dp[l][r] = max(dp[l+1][r], dp[l][r-1]).
         # Then dp(0, n-1) is our result
+        # Complexity:
+        # Time: O(N^2), where N <= 1000 is the length of s
+        # Space: O(N^2)
         
         n = len(s)
         
