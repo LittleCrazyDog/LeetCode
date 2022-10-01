@@ -1,42 +1,31 @@
 class Solution:
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
         m, n = len(mat), len(mat[0])
-        
+        seen = set()
         queue = deque()
         
         for i in range(m):
             for j in range(n):
                 if mat[i][j] == 0:
                     queue.append((i, j))
+                    seen.add((i, j))
         
-        visited = set()
-        
-        visited.update(queue)
-        
-        count = 0
+        coords = [(0,1), (1,0), (0,-1), (-1,0)]
+        distance = 1
         
         # BFS
         while queue:
             for _ in range(len(queue)):
                 x, y = queue.popleft()
                 
-                for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
-                    xx, yy = x + dx, y + dy
+                for dx, dy in coords:
+                    newX, newY = x + dx, y + dy
                     
-                    if xx < 0 or xx == m or yy < 0 or yy == n:
-                        continue
-                    
-                    if (xx, yy) in visited:
-                        continue
-                    
-                    queue.append((xx, yy))
-                    
-                    visited.add((xx, yy))
-                
-                if mat[x][y] == 0:
-                    mat[x][y] = 0
-                else:
-                    mat[x][y] = mat[x][y] + count - 1
-            count += 1
+                    if newX >= 0 and newX < m and newY >= 0 and newY < n and (newX, newY) not in seen:
+                        mat[newX][newY] = distance
+                        queue.append((newX, newY))
+                        seen.add((newX, newY))
+            
+            distance += 1
         
         return mat
