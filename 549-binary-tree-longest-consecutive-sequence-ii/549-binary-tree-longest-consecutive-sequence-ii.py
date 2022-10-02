@@ -7,24 +7,28 @@
 class Solution:
     def longestConsecutive(self, root: Optional[TreeNode]) -> int:
         def longest_path(root):
+            nonlocal maxval
+            
             if not root:
-                return 0, 0
-            inc, dec = 1, 1
-            l_inc, l_dec = longest_path(root.left)
-            r_inc, r_dec = longest_path(root.right)
+                return [0, 0]
+            inr = dcr = 1
+            
             if root.left:
-                if root.left.val == root.val + 1:
-                    inc = max(inc, 1 + l_inc)
-                if root.left.val == root.val - 1:
-                    dec = max(dec, 1 + l_dec)
+                left = longest_path(root.left)
+                if root.val == root.left.val + 1:
+                    dcr = left[1] + 1
+                elif root.val == root.left.val - 1:
+                    inr = left[0] + 1
             if root.right:
-                if root.right.val == root.val + 1:
-                    inc = max(inc, 1 + r_inc)
-                if root.right.val == root.val - 1:
-                    dec = max(dec, 1 + r_dec)
-            res[0] = max(res[0], inc + dec - 1)
-            return (inc, dec)
+                right = longest_path(root.right)
+                if root.val == root.right.val + 1:
+                    dcr = max(dcr, right[1] + 1)
+                if root.val == root.right.val - 1:
+                    inr = max(inr, right[0] + 1)
+            
+            maxval = max(maxval, inr + dcr - 1)
+            return [inr, dcr]
         
-        res = [0]
+        maxval = 0
         longest_path(root)
-        return res[0]
+        return maxval
