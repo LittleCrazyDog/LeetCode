@@ -1,13 +1,13 @@
 class Solution:
     def shoppingOffers(self, price: List[int], special: List[List[int]], needs: List[int]) -> int:
-        memo = {}
-        def check(need):
-            if tuple(need) not in memo:
-                res = sum(p * n for p, n in zip(price, need))
-                for offer in special:
-                    new_need = [a - b for a, b in zip(need, offer)]
-                    if min(new_need) >= 0:
-                        res = min(res, offer[-1] + check(new_need))
-                memo[tuple(need)] = res
-            return memo[tuple(need)]
-        return check(needs)
+        d = {}
+        def dfs(cur):
+            if tuple(cur) not in d:
+                val = sum(cur[i]*price[i] for i in range(len(needs)))
+                for spec in special:
+                    tmp = [cur[j]-spec[j] for j in range(len(needs))]
+                    if min(tmp) >= 0:   # skip deals that exceed needs
+                        val = min(val, d.get(tuple(tmp), dfs(tmp)) + spec[-1])
+                d[tuple(cur)] = val
+            return d[tuple(cur)]
+        return dfs(needs)
