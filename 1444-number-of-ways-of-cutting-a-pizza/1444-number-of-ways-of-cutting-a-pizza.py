@@ -13,11 +13,11 @@ class Solution:
             ans = 0
             # cut horizontally
             for nr in range(r+1, m):
-                if preSum[r][c] - preSum[nr][c] > 0 and preSum[nr][c] >= k:
+                if preSum[r][c] - preSum[nr][c] > 0:
                     ans = (ans + dp(k-1, nr, c)) % MOD
             # cut vertically
             for nc in range(c+1, n):
-                if preSum[r][c] - preSum[r][nc] > 0 and preSum[r][nc] >= k:
+                if preSum[r][c] - preSum[r][nc] > 0:
                     ans = (ans + dp(k-1, r, nc)) % MOD
             return ans
         
