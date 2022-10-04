@@ -4,6 +4,6 @@ class Solution:
         dp = [0] + [MAX] * amount
         
         for i in range(1, amount + 1):
-            dp[i] = min(dp[i-c] if i-c>=0 else MAX for c in coins) + 1
+            dp[i] = min(dp[i-c] if i-c >= 0 else MAX for c in coins) + 1
         
         return dp[-1] if dp[-1] != MAX else -1
