@@ -1,19 +1,17 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        count = 0
-        visited = [[False for _ in range(len(grid[0]))] for _ in range(len(grid))]
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] == '1' and visited[i][j] == False:
-                    count += 1
-                    self.bfs(grid, visited, i, j)
-        return count
+        m, n = len(grid), len(grid[0])
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '1':
+                    res += 1
+                    self.dfs(i, j, m, n, grid)
+        return res
     
-    def bfs(self, grid, visited, i, j):
-        queue = deque([(i, j)])
-        while queue:
-            I, J = queue.popleft()
-            for i, j in [(I-1,J),(I+1,J),(I,J-1),(I,J+1)]:
-                if 0 <= i < len(grid) and 0 <= j < len(grid[0]) and grid[i][j] == '1' and visited[i][j] == False:
-                    visited[i][j] = True
-                    queue.append((i,j))
+    def dfs(self, i, j, m, n, grid):
+        grid[i][j] = '#'
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            ni, nj = i+dx, j+dy
+            if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == '1':
+                self.dfs(ni, nj, m, n, grid)
