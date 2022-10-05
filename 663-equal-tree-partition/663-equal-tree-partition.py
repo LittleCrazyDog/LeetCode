@@ -8,9 +8,7 @@ class Solution:
     def checkEqualTree(self, root: Optional[TreeNode]) -> bool:
         def sum(node):
             if not node: return 0
-            s = node.val + sum(node.left) + sum(node.right)
-            if node is not root:
-                cuts.add(s)
-            return s
-        cuts = set()
-        return sum(root) / 2. in cuts
+            sums.append(node.val + sum(node.left) + sum(node.right))
+            return sums[-1]
+        sums = []
+        return sum(root) / 2. in sums[:-1]
