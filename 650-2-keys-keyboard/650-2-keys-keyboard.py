@@ -1,6 +1,11 @@
 class Solution:
     def minSteps(self, n: int) -> int:
-        for i in range(2, int(n**0.5) + 1):
-            if n % i == 0:
-                return self.minSteps(n // i) + i
-        return 0 if n == 1 else n
+        dp = [i for i in range(n+1)]
+        dp[0] = dp[1] = 0
+        
+        for i in range(2, n+1):
+            for j in range(i//2, 1, -1):
+                if (i % j == 0):
+                    dp[i] = dp[j] + i//j
+                    break
+        return dp[n]
