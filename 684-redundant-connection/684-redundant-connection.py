@@ -1,20 +1,28 @@
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        self.already_connected = defaultdict(list)
-        for edge in edges:
-            self.visited = defaultdict(bool)
-            x, y = edge[0], edge[1]
-            if self.is_already_connected(x, y):
-                return edge
-            self.already_connected[x].append(y)
-            self.already_connected[y].append(x)
-    
-    def is_already_connected(self, x, y):
-        if x == y:
-            return True
-        for x_adjacent in self.already_connected[x]:
-            if not self.visited[x_adjacent]:
-                self.visited[x_adjacent] = True
-                if self.is_already_connected(x_adjacent, y):
-                    return True
-        return False
+        parent = [-1] * (len(edges) + 1)
+        rank = [0] * (len(edges) + 1)
+        
+        def find(x):
+            if parent[x] == -1:
+                return x
+            parent[x] = find(parent[x])
+            return parent[x]
+        
+        def union(x, y):
+            root_x = find(x)
+            root_y = find(y)
+            if root_x == root_y:
+                return False
+            elif rank[root_x] < rank[root_y]:
+                parent[root_x] = root_y
+                rank[root_y] += 1
+                return True
+            else:
+                parent[root_y] = root_x
+                rank[root_x] += 1
+                return True
+        
+        for x, y in edges:
+            if not union(x, y):
+                return [x, y]
