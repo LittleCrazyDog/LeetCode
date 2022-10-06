@@ -3,7 +3,7 @@ class Solution:
         # dp stores two things:
         # 1. the Length of longest subsequence ending at this index
         # 2. Number of longest subsequence that end at this index
-        dp, longest = [[1, 1] for _ in range(len(nums))], 1
+        dp, longest = [[1, 0] for _ in range(len(nums))], 1
         for i, num in enumerate(nums):
             curr_longest, count = 1, 0
             for j in range(i):
