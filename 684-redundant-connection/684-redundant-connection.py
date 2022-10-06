@@ -1,28 +1,14 @@
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        parent = [-1] * (len(edges) + 1)
-        rank = [0] * (len(edges) + 1)
+        p = [x for x in range(len(edges) + 1)]
         
         def find(x):
-            if parent[x] == -1:
-                return x
-            parent[x] = find(parent[x])
-            return parent[x]
+            if p[x] != x: p[x] = find(p[x])
+            return p[x]
         
         def union(x, y):
-            root_x = find(x)
-            root_y = find(y)
-            if root_x == root_y:
-                return False
-            elif rank[root_x] < rank[root_y]:
-                parent[root_x] = root_y
-                rank[root_y] += 1
-                return True
-            else:
-                parent[root_y] = root_x
-                rank[root_x] += 1
-                return True
+            if find(x) == find(y): return True
+            p[find(x)] = find(y)
         
         for x, y in edges:
-            if not union(x, y):
-                return [x, y]
+            if union(x, y): return [x, y]
