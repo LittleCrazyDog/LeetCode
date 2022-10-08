@@ -23,9 +23,7 @@ class Solution:
                 key = ord(words[i][j]) - ord('a')
                 map[key] = set()
         for i in range(len(words)-1):
-            word1 = words[i]
-            word2 = words[i+1]
-            idx = 0
+            word1, word2 = words[i], words[i+1]
             for j in range(min(len(word1),len(word2))):
                 if word1[j] != word2[j]:
                     key1 = ord(word1[j]) - ord('a')
@@ -44,12 +42,8 @@ class Solution:
         while q:
             nextup = q.popleft()
             res += chr(nextup+ord('a'))
-            greaterSet = map[nextup]
-            for greater in greaterSet:
+            for greater in map[nextup]:
                 letters[greater] -= 1
-                if letters[greater] == 0:
-                    q.append(greater)
-        if len(map) != len(res):
-            return ''
-        return res
+                if letters[greater] == 0: q.append(greater)
+        return res if len(map) == len(res) else ''
                 
