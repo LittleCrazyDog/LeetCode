@@ -13,9 +13,9 @@ class Solution:
                     left = mid + 1
             return left
         
-        low_x = bsearch(0, x+1, lambda r : has_pixel_in_row(r))
+        low_x = bsearch(0, x+1, lambda r: has_pixel_in_row(r))
         high_x = bsearch(x, m, lambda r: not has_pixel_in_row(r))
-        low_y = bsearch(0, y+1, lambda c : has_pixel_in_col(c))
+        low_y = bsearch(0, y+1, lambda c: has_pixel_in_col(c))
         high_y = bsearch(y, n, lambda c: not has_pixel_in_col(c))
         
         return (high_y-low_y)*(high_x-low_x)
