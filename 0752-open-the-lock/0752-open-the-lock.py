@@ -1,7 +1,6 @@
 class Solution:
     def openLock(self, deadends: List[str], target: str) -> int:
-        marker, depth = 'x', -1
-        visited, q = set(deadends), deque(['0000'])
+        visited, q, depth = set(deadends), deque(['0000']), -1
         
         while q:
             depth += 1
