@@ -7,10 +7,9 @@ class Solution:
             depth += 1
             for _ in range(len(queue)):
                 word = queue.popleft()
-                if word == endWord:
-                    return depth
+                if word == endWord: return depth
                 for i in range(len(word)):
-                    for c in 'abcdefghijklmnopqrstuvwxyz':
+                    for c in string.ascii_lowercase:
                         next_word = word[:i] + c + word[i+1:]
                         if next_word in wordList:
                             wordList.remove(next_word)
