@@ -8,15 +8,12 @@ class Solution:
                 stack.append(sign)
                 stack.append('(')
                 sign = '+'
+                num = 0
             elif c in '+-*/)':
-                if sign == '+':
-                    stack.append(num)
-                elif sign == '-':
-                    stack.append(-num)
-                elif sign == '*':
-                    stack.append(stack.pop()*num)
-                elif sign == '/':
-                    stack.append(int(stack.pop()/num))
+                if sign == '+': stack.append(num)
+                elif sign == '-': stack.append(-num)
+                elif sign == '*': stack.append(stack.pop()*num)
+                elif sign == '/': stack.append(int(stack.pop()/num))
                 if c == ')':
                     num, item = 0, stack.pop()
                     while item != '(':
@@ -24,5 +21,5 @@ class Solution:
                         item = stack.pop()
                     sign = stack.pop()
                 else:
-                    sign, num = c, 0
+                    num, sign = 0, c
         return sum(stack)
