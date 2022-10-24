@@ -1,25 +1,21 @@
 class Solution:
     def longestPalindrome(self, words: List[str]) -> int:
-        c = defaultdict(int)
-        res = 0
-        unpaired_word = 0
-        
-        for word in words:
-            c[word] += 1
-        
-        for w in list(c.keys()):
-            # ee
+        m = defaultdict(int)
+        unpaired = res = 0
+        for w in words:
             if w[0] == w[1]:
-                res += 4 *(c[w]//2)
-                c[w] = c[w] % 2
-                if c[w] > 0:
-                    unpaired_word += 1
-            # em
+                if m[w] > 0:
+                    m[w] -= 1
+                    unpaired -= 1
+                    res += 4
+                else:
+                    m[w] += 1
+                    unpaired += 1
             else:
-                res += 4 * min(c[w], c[w[::-1]])
-                del c[w]
-                del c[w[::-1]]
-                
-        if unpaired_word > 0: res += 2
-        
+                if m[w[::-1]] > 0:
+                    m[w[::-1]] -= 1
+                    res += 4
+                else:
+                    m[w] += 1
+        if unpaired > 0: res += 2
         return res
