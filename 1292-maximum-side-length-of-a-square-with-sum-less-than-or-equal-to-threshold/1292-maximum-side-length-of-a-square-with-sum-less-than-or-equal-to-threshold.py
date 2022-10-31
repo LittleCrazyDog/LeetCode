@@ -6,7 +6,7 @@ class Solution:
         for i in range(1, m+1):
             for j in range(1, n+1):
                 preSum[i][j] = mat[i-1][j-1] + preSum[i-1][j] + preSum[i][j-1] - preSum[i-1][j-1]
-                l, r = 1, min(i, j)
+                l, r = 1+res, min(i, j)
                 while l <= r:
                     m = (l + r) // 2
                     curSum = preSum[i][j] - preSum[i-m][j] - preSum[i][j-m] + preSum[i-m][j-m]
