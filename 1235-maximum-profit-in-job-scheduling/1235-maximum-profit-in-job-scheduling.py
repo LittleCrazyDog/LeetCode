@@ -1,3 +1,4 @@
+from bisect import bisect
 class Solution:
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
         # Sort the jobs by endTime
@@ -11,9 +12,7 @@ class Solution:
         # If we do this job, binary search in the dp to find the largest profit we can make before start time s.
         # So we also know the maximum current profit that we can make doing this job.
         
-        # Compare with last element in the dp,
-        # we make more money,
-        # it worth doing this job,
+        # Compare with last element in the dp, if we make more money, it worth doing this job,
         # then we add the pair of [e, cur] to the back of dp
         # Otherwise, we'd like not to do this job
         
@@ -25,7 +24,7 @@ class Solution:
         jobs = sorted(zip(startTime, endTime, profit), key = lambda v: v[1])
         dp = [[0, 0]]
         for s, e, p in jobs:
-            i = bisect.bisect(dp, [s+1]) - 1
+            i = bisect(dp, [s+1]) - 1
             if dp[i][1] + p > dp[-1][1]:
                 dp.append([e, dp[i][1] + p])
         return dp[-1][1]
